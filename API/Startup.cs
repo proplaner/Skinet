@@ -29,8 +29,8 @@ namespace API
 
             services.AddDbContext<StoreContext>(x => 
                 x.UseSqlite(_config.GetConnectionString("DefaultConnection")));
-
-            services.AddDbContext<AppIdentityDbContext>(x =>
+            
+            services.AddDbContext<AppIdentityDbContext>(x => 
             {
                 x.UseSqlite(_config.GetConnectionString("IdentityConnection"));
             });
