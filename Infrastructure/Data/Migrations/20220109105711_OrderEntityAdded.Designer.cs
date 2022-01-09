@@ -6,17 +6,18 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20210225002028_OrderEntityAdded")]
+    [Migration("20220109105711_OrderEntityAdded")]
     partial class OrderEntityAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.3");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.1");
 
             modelBuilder.Entity("Core.Entities.OrderAggregate.DeliveryMethod", b =>
                 {
@@ -25,15 +26,14 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("DeliveryTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Price")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("ShortName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -48,15 +48,17 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("BuyerEmail")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("DeliveryMethodId")
+                    b.Property<int>("DeliveryMethodId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTimeOffset>("OrderDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PaymentIntentId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
@@ -103,6 +105,7 @@ namespace Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(180)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -139,6 +142,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -153,6 +157,7 @@ namespace Infrastructure.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -164,7 +169,9 @@ namespace Infrastructure.Data.Migrations
                 {
                     b.HasOne("Core.Entities.OrderAggregate.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("DeliveryMethodId");
+                        .HasForeignKey("DeliveryMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("Core.Entities.OrderAggregate.Address", "ShipToAddress", b1 =>
                         {
@@ -172,21 +179,27 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("INTEGER");
 
                             b1.Property<string>("City")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("FirstName")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("LastName")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("State")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("Street")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<string>("ZipCode")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.HasKey("OrderId");
@@ -199,7 +212,8 @@ namespace Infrastructure.Data.Migrations
 
                     b.Navigation("DeliveryMethod");
 
-                    b.Navigation("ShipToAddress");
+                    b.Navigation("ShipToAddress")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.OrderAggregate.OrderItem", b =>
@@ -215,12 +229,14 @@ namespace Infrastructure.Data.Migrations
                                 .HasColumnType("INTEGER");
 
                             b1.Property<string>("PictureUrl")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.Property<int>("ProductItemId")
                                 .HasColumnType("INTEGER");
 
                             b1.Property<string>("ProductName")
+                                .IsRequired()
                                 .HasColumnType("TEXT");
 
                             b1.HasKey("OrderItemId");
@@ -231,7 +247,8 @@ namespace Infrastructure.Data.Migrations
                                 .HasForeignKey("OrderItemId");
                         });
 
-                    b.Navigation("ItemOrdered");
+                    b.Navigation("ItemOrdered")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Entities.Product", b =>
