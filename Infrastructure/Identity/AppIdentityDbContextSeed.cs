@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +20,7 @@ namespace Infrastructure.Identity
                     {
                         FirstName = "Bob",
                         LastName = "Bobbity",
-                        Street = "10 The Street",
+                        Street = "10 The street",
                         City = "New York",
                         State = "NY",
                         ZipCode = "90210"
