@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using API.Dtos;
 using AutoMapper;
 using Core.Entities;
-using Core.Entities.Identity;
+using Core.Entities.OrderAggregate;
+using Address = Core.Entities.Identity.Address;
+using Order = StackExchange.Redis.Order;
 
 namespace API.Helpers
 {
@@ -21,6 +23,8 @@ namespace API.Helpers
             CreateMap<CustomerBasketDto, CustomerBasket>();
             CreateMap<BasketItemDto, BasketItem>();
             CreateMap<AddressDto, Core.Entities.OrderAggregate.Address>();
+            CreateMap<Order, OrderToReturnDto>();
+            CreateMap<OrderItem, OrderItemDto>();
         }
     }
 }
