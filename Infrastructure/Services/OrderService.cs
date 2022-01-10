@@ -19,7 +19,7 @@ namespace Infrastructure.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Order> CreateOrdeAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress)
+        public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress)
         {
             // get basket from the repo
             var basket = await _basketRepo.GetBasketAsync(basketId);
